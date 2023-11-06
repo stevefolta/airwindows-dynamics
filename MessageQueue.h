@@ -12,7 +12,8 @@ class MessageQueue {
 			int	id;
 			union {
 				void*	param;
-				int64_t	num;
+				int64_t	int_value;
+				double double_value;
 				};
 			};
 
@@ -20,23 +21,24 @@ class MessageQueue {
 		~MessageQueue();
 
 		// Sending.
-		void	send(int message); 	// Send a simple message with no parameters.
-		void	send(int message, void* param);
-		void	send(int message, int64_t num);
-		Message*	back();
-		void	push();
+		void send(int message); 	// Send a simple message with no parameters.
+		void send(int message, void* param);
+		void send(int message, int64_t num);
+		void send(int message, double value);
+		Message* back();
+		void push();
 
 		// Receiving.
 		Message pop_front();
-		Message*	front();
-		void	pop();
+		Message* front();
+		void pop();
 
-		bool	is_empty();
-		bool	is_full();
+		bool is_empty();
+		bool is_full();
 
 	protected:
-		Message*	ring;
-		int	capacity;
+		Message* ring;
+		int capacity;
 		std::atomic_uint head, tail;
 	};
 

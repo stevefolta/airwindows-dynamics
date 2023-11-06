@@ -56,7 +56,17 @@ void MessageQueue::send(int message, int64_t num)
 	Message* msg = back();
 	if (msg) {
 		msg->id = message;
-		msg->num = num;
+		msg->int_value = num;
+		push();
+		}
+}
+
+void MessageQueue::send(int message, double value)
+{
+	Message* msg = back();
+	if (msg) {
+		msg->id = message;
+		msg->double_value = value;
 		push();
 		}
 }
