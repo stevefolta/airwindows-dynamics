@@ -32,14 +32,14 @@ bool AirwindowsCompressorUIPlugin::get_audio_port_info(uint32_t index, bool is_i
 }
 
 
-bool AirwindowsCompressorUIPlugin::activate(double sample_rate, uint32_t min_frames, uint32_t max_frames)
+bool AirwindowsCompressorUIPlugin::activate(double sample_rate_in, uint32_t min_frames, uint32_t max_frames)
 {
-	/***/
+	sample_rate = sample_rate_in;
+	return true;
 }
 
 void AirwindowsCompressorUIPlugin::deactivate()
 {
-	/***/
 }
 
 void AirwindowsCompressorUIPlugin::reset()

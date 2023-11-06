@@ -3,6 +3,9 @@ SOURCES := AirwindowsCompressorsUI.cpp
 SOURCES += AirwindowsCompressorUIPlugin.cpp
 SOURCES += Pressure4Plugin.cpp
 SOURCES += MessageQueue.cpp Settings.cpp SettingsParser.cpp
+AIRWINDOWS_DIR := from-airwindows
+AIRWINDOWS_SOURCES += Pressure4Proc.cpp
+SOURCES += $(foreach source,$(AIRWINDOWS_SOURCES),$(AIRWINDOWS_DIR)/$(source))
 FRAMEWORK_DIR := CLAPFramework
 FRAMEWORK_SOURCES += CLAPPlugin.cpp
 FRAMEWORK_SOURCES += CLAPPosixFDExtension.cpp CLAPCairoGUIExtension.cpp
@@ -16,7 +19,7 @@ WIDGET_SOURCES += Label.cpp ProgressBar.cpp TextBox.cpp Checkbox.cpp
 WIDGET_SOURCES += TimeSeconds.cpp
 SOURCES += $(foreach source,$(WIDGET_SOURCES),$(WIDGETS_DIR)/$(source))
 LIBRARIES += X11 cairo
-SUBDIRS += $(FRAMEWORK_DIR) $(WIDGETS_DIR)
+SUBDIRS += $(AIRWINDOWS_DIR) $(FRAMEWORK_DIR) $(WIDGETS_DIR)
 OBJECTS_DIR := objects
 
 CFLAGS += -fPIC --no-exceptions --no-rtti -DTUNINGS_NO_EXCEPTIONS
@@ -37,6 +40,7 @@ all: $(PLUGIN)
 CPP := g++
 CFLAGS += -MMD
 CFLAGS += -g
+CFLAGS += -I.
 CFLAGS += $(foreach dir,$(SUBDIRS),-I$(dir))
 CFLAGS += $(foreach switch,$(DEFINES),-D$(switch))
 CFLAGS += $(foreach switch,$(SWITCHES),-D$(switch))

@@ -4,6 +4,10 @@
 #include "CairoGUI.h"
 #include "CLAPCairoGUIExtension.h"
 #include "MessageQueue.h"
+#include <stdint.h>
+#include <math.h>
+
+typedef int32_t VstInt32;
 
 
 class AirwindowsCompressorUIPlugin : public CLAPPlugin {
@@ -34,12 +38,18 @@ class AirwindowsCompressorUIPlugin : public CLAPPlugin {
 		bool save_state(const clap_ostream_t* stream);
 		bool load_state(const clap_istream_t* stream);
 
+		virtual void processReplacing(float** inputs, float** outputs, VstInt32 sampleFrames) = 0;
+		virtual void processDoubleReplacing(double** inputs, double** outputs, VstInt32 sampleFrames) = 0;
+
+		double getSampleRate() { return sample_rate; }
+
 	protected:
 		enum {
 			default_gui_width = 500,
 			default_gui_height = 300,
 			};
 
+		double sample_rate;
 		MessageQueue audio_to_main_queue;
 
 		class CairoGUI : public ::CairoGUI {
