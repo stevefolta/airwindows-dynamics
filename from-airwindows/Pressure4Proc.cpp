@@ -167,10 +167,10 @@ void Pressure4Plugin::processReplacing(float **inputs, float **outputs, VstInt32
 		*outputL = inputSampleL;
 		*outputR = inputSampleR;
 		
-		*inputL++;
-		*inputR++;
-		*outputL++;
-		*outputR++;
+		inputL++;
+		inputR++;
+		outputL++;
+		outputR++;
     }
 }
 
@@ -336,9 +336,9 @@ void Pressure4Plugin::processDoubleReplacing(double **inputs, double **outputs, 
 		*outputL = inputSampleL;
 		*outputR = inputSampleR;
 
-		*inputL++;
-		*inputR++;
-		*outputL++;
-		*outputR++;
+		inputL++;
+		inputR++;
+		outputL++;
+		outputR++;
     }
 }

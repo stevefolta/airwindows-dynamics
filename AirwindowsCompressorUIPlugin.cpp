@@ -4,6 +4,7 @@
 #include "CLAPAudioPortsExtension.h"
 #include "CLAPParamsExtension.h"
 #include "CLAPStateExtension.h"
+#include <stdio.h>
 
 
 AirwindowsCompressorUIPlugin::AirwindowsCompressorUIPlugin(
@@ -21,6 +22,23 @@ bool AirwindowsCompressorUIPlugin::init()
 	audio_ports_extension = new CLAPAudioPortsExtension(this);
 	params_extension = new CLAPParamsExtension();
 	state_extension = new CLAPStateExtension(this);
+
+	// Set up parameters.
+	const auto param_names = parameter_names();
+	clap_id id = 0;
+	for (const auto& name: param_names) {
+		double cur_value = 0.0;
+		get_param_value(id, &cur_value);
+		parameter_infos.push_back((clap_param_info_t) {
+			.id = id,
+			.flags = CLAP_PARAM_IS_AUTOMATABLE | CLAP_PARAM_REQUIRES_PROCESS,
+			.min_value = 0.0,
+			.max_value = 1.0,
+			.default_value = cur_value,
+			});
+		strncpy(parameter_infos.back().name, name.c_str(), CLAP_NAME_SIZE - 1);
+		id += 1;
+		}
 
 	return true;
 }
@@ -148,24 +166,35 @@ clap_process_status AirwindowsCompressorUIPlugin::process(const clap_process_t* 
 
 const void* AirwindowsCompressorUIPlugin::get_extension(const char* id)
 {
-	/***/
+	const void* extension = nullptr;
+	if ((extension = posix_fd_extension->for_name(id))) ;
+	else if ((extension = cairo_gui_extension->for_name(id))) ;
+	else if ((extension = audio_ports_extension->for_name(id))) ;
+	else if ((extension = params_extension->for_name(id))) ;
+	else if ((extension = state_extension->for_name(id))) ;
+	return extension;
 }
 
 
 void AirwindowsCompressorUIPlugin::on_fd(int fd, clap_posix_fd_flags_t flags)
 {
-	/***/
+	cairo_gui_extension->on_fd(fd, flags);
 }
 
 
 bool AirwindowsCompressorUIPlugin::get_gui_size(uint32_t* width_out, uint32_t* height_out)
 {
-	/***/
+	*width_out = gui_width;
+	*height_out = gui_height;
+	return true;
 }
 
 bool AirwindowsCompressorUIPlugin::resize_gui(uint32_t width, uint32_t height)
 {
-	/***/
+	gui_width = width;
+	gui_height = height;
+	layout();
+	return true;
 }
 
 
@@ -194,6 +223,41 @@ void AirwindowsCompressorUIPlugin::mouse_moved(int32_t x, int32_t y)
 void AirwindowsCompressorUIPlugin::main_thread_tick()
 {
 	/***/
+}
+
+
+uint32_t AirwindowsCompressorUIPlugin::num_params()
+{
+	return parameter_infos.size();
+}
+
+bool AirwindowsCompressorUIPlugin::get_param_info(uint32_t param_index, clap_param_info_t* param_info_out)
+{
+	if (param_index >= parameter_infos.size())
+		return false;
+	*param_info_out = parameter_infos[param_index];
+	return true;
+}
+
+bool AirwindowsCompressorUIPlugin::param_value_to_text(clap_id param_id, double value, char* out_buffer, uint32_t out_buffer_capacity)
+{
+	// Default: just a double.
+	snprintf(out_buffer, out_buffer_capacity, "%g", value);
+	return true;
+}
+
+bool AirwindowsCompressorUIPlugin::param_text_to_value(clap_id param_id, const char* param_value_text, double* value_out)
+{
+	char* end_ptr = nullptr;
+	*value_out = strtod(param_value_text, &end_ptr);
+	return end_ptr != param_value_text;
+}
+
+void AirwindowsCompressorUIPlugin::flush_params(const clap_input_events_t* in, const clap_output_events_t* out)
+{
+	auto num_events = in->size(in);
+	for (uint32_t which_event = 0; which_event < num_events; ++which_event)
+		process_event(in->get(in, which_event));
 }
 
 

@@ -4,6 +4,7 @@
 #include "CairoGUI.h"
 #include "CLAPCairoGUIExtension.h"
 #include "MessageQueue.h"
+#include <string>
 #include <stdint.h>
 #include <math.h>
 
@@ -35,11 +36,19 @@ class AirwindowsCompressorUIPlugin : public CLAPPlugin {
 		void mouse_moved(int32_t x, int32_t y);
 		void main_thread_tick();
 
+		uint32_t num_params();
+		bool get_param_info(uint32_t param_index, clap_param_info_t* param_info_out);
+		bool param_value_to_text(clap_id param_id, double value, char* out_buffer, uint32_t out_buffer_capacity);
+		bool param_text_to_value(clap_id param_id, const char* param_value_text, double* value_out);
+		void flush_params(const clap_input_events_t* in, const clap_output_events_t* out);
+
 		bool save_state(const clap_ostream_t* stream);
 		bool load_state(const clap_istream_t* stream);
 
 		virtual void processReplacing(float** inputs, float** outputs, VstInt32 sampleFrames) = 0;
 		virtual void processDoubleReplacing(double** inputs, double** outputs, VstInt32 sampleFrames) = 0;
+		virtual const std::vector<std::string>& parameter_names() = 0;
+		virtual void set_param_value(clap_id param_id, double value) = 0;
 
 		double getSampleRate() { return sample_rate; }
 
@@ -51,6 +60,8 @@ class AirwindowsCompressorUIPlugin : public CLAPPlugin {
 
 		double sample_rate;
 		MessageQueue audio_to_main_queue;
+		uint32_t gui_width = default_gui_width, gui_height = default_gui_height;
+		std::vector<clap_param_info_t> parameter_infos;
 
 		class CairoGUI : public ::CairoGUI {
 			public:
