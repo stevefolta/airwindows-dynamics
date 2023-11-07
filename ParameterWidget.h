@@ -3,13 +3,14 @@
 #include "Widget.h"
 #include <string>
 
+class AirwindowsCompressorUIPlugin;
 class Label;
 class HorizontalSlider;
 
 
 class ParameterWidget : public Widget {
 	public:
-		ParameterWidget(CairoGUI* gui_in, uint32_t id, std::string name, Rect rect_in = {});
+		ParameterWidget(CairoGUI* gui_in, uint32_t id, AirwindowsCompressorUIPlugin* plugin_in, Rect rect_in = {});
 		~ParameterWidget();
 
 		void paint();
@@ -26,7 +27,9 @@ class ParameterWidget : public Widget {
 		static double label_size_factor, spacer_factor;
 
 	protected:
-		Label* label;
+		AirwindowsCompressorUIPlugin* plugin;
+		Label* name_label;
+		Label* value_label;
 		HorizontalSlider* slider;
 	};
 

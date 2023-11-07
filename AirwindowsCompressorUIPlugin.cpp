@@ -48,12 +48,10 @@ bool AirwindowsCompressorUIPlugin::init()
 		}
 
 	// Create parameter widgets.
-	id = 0;
-	for (const auto& name: param_names) {
-		ParameterWidget* widget = new ParameterWidget(&cairo_gui, id, name);
+	for (id = 0; id < param_names.size(); ++id) {
+		ParameterWidget* widget = new ParameterWidget(&cairo_gui, id, this);
 		widget->set_value(param_values[id]);
 		parameter_widgets.push_back(widget);
-		id += 1;
 		}
 
 	compression_meter = new CompressionMeter(&cairo_gui);
