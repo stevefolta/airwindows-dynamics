@@ -4,6 +4,7 @@
 #include "CLAPAudioPortsExtension.h"
 #include "CLAPParamsExtension.h"
 #include "CLAPStateExtension.h"
+#include <sstream>
 #include <stdio.h>
 
 
@@ -31,12 +32,16 @@ bool AirwindowsCompressorUIPlugin::init()
 		get_param_value(id, &cur_value);
 		parameter_infos.push_back((clap_param_info_t) {
 			.id = id,
-			.flags = CLAP_PARAM_IS_AUTOMATABLE | CLAP_PARAM_REQUIRES_PROCESS,
+			.flags =
+				CLAP_PARAM_IS_AUTOMATABLE | CLAP_PARAM_IS_MODULATABLE |
+				CLAP_PARAM_REQUIRES_PROCESS,
 			.min_value = 0.0,
 			.max_value = 1.0,
 			.default_value = cur_value,
 			});
 		strncpy(parameter_infos.back().name, name.c_str(), CLAP_NAME_SIZE - 1);
+		param_values.push_back(cur_value);
+		param_mods.push_back(0.0);
 		id += 1;
 		}
 
@@ -239,6 +244,14 @@ bool AirwindowsCompressorUIPlugin::get_param_info(uint32_t param_index, clap_par
 	return true;
 }
 
+bool AirwindowsCompressorUIPlugin::get_param_value(clap_id param_id, double* value_out)
+{
+	if (param_id >= parameter_infos.size())
+		return false;
+	*value_out = get_parameter(param_id);
+	return true;
+}
+
 bool AirwindowsCompressorUIPlugin::param_value_to_text(clap_id param_id, double value, char* out_buffer, uint32_t out_buffer_capacity)
 {
 	// Default: just a double.
@@ -263,18 +276,83 @@ void AirwindowsCompressorUIPlugin::flush_params(const clap_input_events_t* in, c
 
 bool AirwindowsCompressorUIPlugin::save_state(const clap_ostream_t* stream)
 {
-	/***/
+	std::ostringstream data;
+	for (clap_id i = 0; i < parameter_infos.size(); ++i) {
+		if (i != 0)
+			data << ' ';
+		data << std::hexfloat << param_values[i];
+		}
+
+	auto contents = data.str();
+	const char* bytes = contents.data();
+	int64_t bytes_left = contents.size();
+	while (bytes_left > 0) {
+		auto bytes_written = stream->write(stream, bytes, bytes_left);
+		if (bytes_written < 0)
+			break;
+		bytes += bytes_written;
+		bytes_left -= bytes_written;
+		}
+
+	return bytes_left == 0;
 }
 
 bool AirwindowsCompressorUIPlugin::load_state(const clap_istream_t* stream)
 {
-	/***/
+	// Read the whole state.
+	std::vector<char> buffer(256);
+	std::vector<char> state;
+	while (true) {
+		auto bytes_read = stream->read(stream, buffer.data(), buffer.size());
+		if (bytes_read == 0)
+			break;
+		else if (bytes_read < 0)
+			return false;
+		state.insert(state.end(), buffer.begin(), std::next(buffer.begin(), bytes_read));
+		}
+
+	// We can't use istringstream to read hex float values because GCC insists on
+	// being broken.  Use strtod() instead.
+	std::string contents(state.data(), state.size());
+	const char* p = contents.c_str();
+	for (clap_id i = 0; i < parameter_infos.size(); ++i) {
+		if (*p == 0)
+			return false;
+		char* end = nullptr;
+		param_values[i] = strtod(p, &end);
+		p = end;
+		set_parameter(i, param_values[i] + param_mods[i]);
+		}
+
+	return true;
 }
 
 
 void AirwindowsCompressorUIPlugin::process_event(const clap_event_header_t* event)
 {
-	/***/
+	if (event->space_id != CLAP_CORE_EVENT_SPACE_ID)
+		return;
+
+	if (event->type == CLAP_EVENT_PARAM_VALUE) {
+		auto param_event = (const clap_event_param_value_t*) event;
+		if (param_event->note_id == -1 && param_event->port_index == -1 && param_event->channel == -1 && param_event->key == -1) {
+			auto param_id = param_event->param_id;
+			if (param_id < parameter_infos.size()) {
+				param_values[param_id] = param_event->value;
+				set_parameter(param_id, param_values[param_id] + param_mods[param_id]);
+				}
+			}
+		}
+	else if (event->type == CLAP_EVENT_PARAM_MOD) {
+		auto mod_event = (const clap_event_param_mod_t*) event;
+		if (mod_event->note_id == -1 && mod_event->port_index == -1 && mod_event->channel == -1 && mod_event->key == -1) {
+			auto param_id = mod_event->param_id;
+			if (param_id < parameter_infos.size()) {
+				param_mods[param_id] = mod_event->amount;
+				set_parameter(param_id, param_values[param_id] + param_mods[param_id]);
+				}
+			}
+		}
 }
 
 

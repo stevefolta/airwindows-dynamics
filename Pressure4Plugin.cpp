@@ -29,18 +29,18 @@ const std::vector<std::string>& Pressure4Plugin::parameter_names()
 	return ::parameter_names;
 }
 
-bool Pressure4Plugin::get_param_value(clap_id param_id, double* value_out)
+double Pressure4Plugin::get_parameter(clap_id param_id)
 {
 	switch (param_id) {
-		case 0: *value_out = A; return true;
-		case 1: *value_out = B; return true;
-		case 2: *value_out = C; return true;
-		case 3: *value_out = D; return true;
+		case 0: return A;
+		case 1: return B;
+		case 2: return C;
+		case 3: return D;
 		}
-	return false;
+	return 0.0;
 }
 
-void Pressure4Plugin::set_param_value(clap_id param_id, double value)
+void Pressure4Plugin::set_parameter(clap_id param_id, double value)
 {
 	switch (param_id) {
 		case 0: A = value; break;
