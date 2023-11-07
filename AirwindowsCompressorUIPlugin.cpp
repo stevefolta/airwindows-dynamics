@@ -5,6 +5,7 @@
 #include "CLAPParamsExtension.h"
 #include "CLAPStateExtension.h"
 #include "ParameterWidget.h"
+#include "Messages.h"
 #include <sstream>
 #include <iostream>
 #include <stdio.h>
@@ -131,6 +132,22 @@ void AirwindowsCompressorUIPlugin::reset()
 
 clap_process_status AirwindowsCompressorUIPlugin::process(const clap_process_t* process)
 {
+	// Handle messages from the main thread.
+	while (true) {
+		auto message = main_to_audio_queue.pop_front();
+		if (message.id < 0)
+			break;
+		switch (message.id) {
+			case SetParameter:
+				{
+				auto param_id = message.int_value;
+				param_values[param_id] = message.double_value;
+				set_parameter(param_id, param_values[param_id] + param_mods[param_id]);
+				}
+				break;
+			}
+		}
+
 	// Render and handle events.
 	const uint32_t num_frames = process->frames_count;
 	const uint32_t num_events = process->in_events->size(process->in_events);
@@ -263,8 +280,16 @@ void AirwindowsCompressorUIPlugin::mouse_released(int32_t x, int32_t y, int butt
 
 void AirwindowsCompressorUIPlugin::mouse_moved(int32_t x, int32_t y)
 {
-	if (tracking_widget)
-		tracking_widget->mouse_moved(x, y);
+	if (tracking_widget == nullptr)
+		return;
+
+	tracking_widget->mouse_moved(x, y);
+	for (auto widget: parameter_widgets) {
+		if (widget == tracking_widget) {
+			main_to_audio_queue.send(SetParameter, widget->id, widget->value());
+			break;
+			}
+		}
 }
 
 

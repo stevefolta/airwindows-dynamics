@@ -10,9 +10,9 @@ class MessageQueue {
 	public:
 		struct Message {
 			int	id;
+			int64_t	int_value;
 			union {
 				void*	param;
-				int64_t	int_value;
 				double double_value;
 				};
 			};
@@ -25,6 +25,7 @@ class MessageQueue {
 		void send(int message, void* param);
 		void send(int message, int64_t num);
 		void send(int message, double value);
+		void send(int message, int64_t num, double value);
 		Message* back();
 		void push();
 

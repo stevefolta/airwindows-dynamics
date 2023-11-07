@@ -64,12 +64,11 @@ class AirwindowsCompressorUIPlugin : public CLAPPlugin {
 			};
 
 		double sample_rate;
-		MessageQueue audio_to_main_queue;
+		MessageQueue main_to_audio_queue, audio_to_main_queue;
 		uint32_t gui_width = default_gui_width, gui_height = default_gui_height;
 		std::vector<clap_param_info_t> parameter_infos;
 		std::vector<double> param_values, param_mods;
 
-		ParameterWidget* param_widget = nullptr;
 		std::vector<ParameterWidget*> parameter_widgets;
 		Widget* tracking_widget = nullptr;
 

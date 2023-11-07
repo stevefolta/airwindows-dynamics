@@ -18,6 +18,7 @@ class ParameterWidget : public Widget {
 		void mouse_moved(int x, int y);
 
 		void layout();
+		double value();
 		void set_value(double value);
 
 		uint32_t id;

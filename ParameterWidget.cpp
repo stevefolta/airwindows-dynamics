@@ -53,6 +53,11 @@ void ParameterWidget::layout()
 }
 
 
+double ParameterWidget::value()
+{
+	return slider->value;
+}
+
 void ParameterWidget::set_value(double value)
 {
 	slider->value = value;

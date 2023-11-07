@@ -71,6 +71,18 @@ void MessageQueue::send(int message, double value)
 		}
 }
 
+void MessageQueue::send(int message, int64_t num, double value)
+{
+	Message* msg = back();
+	if (msg) {
+		msg->id = message;
+		msg->int_value = num;
+		msg->double_value = value;
+		push();
+		}
+}
+
+
 
 MessageQueue::Message MessageQueue::pop_front()
 {
