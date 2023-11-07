@@ -13,9 +13,11 @@ class HorizontalSlider : public Widget {
 		double page_factor = 0.1;
 
 		double track_height = 2.0, thumb_width = 10.0, thumb_line_width = 2.0;
-		Color track_color = { 0.5, 0.5, 0.5 };
+		double crease_inset = 3.0, crease_width = 1.0;
+		Color track_color = { 0.7, 0.7, 0.7 };
 		Color thumb_stroke_color = { 0.0, 0.0, 0.0 };
 		Color thumb_fill_color = { 1.0, 1.0, 1.0 };
+		Color thumb_crease_color = { 0.25, 0.25, 0.25 };
 
 		void paint();
 		void mouse_pressed(int x, int y);

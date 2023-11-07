@@ -23,6 +23,13 @@ void HorizontalSlider::paint()
 	cairo_set_line_width(cairo, thumb_line_width);
 	cairo_stroke(cairo);
 
+	// Thumb crease.
+	cairo_move_to(cairo, thumb_rect.x + thumb_rect.width / 2, thumb_rect.y + crease_inset);
+	cairo_rel_line_to(cairo, 0, thumb_rect.height - 2 * crease_inset);
+	cairo_set_source_rgb(cairo, thumb_crease_color.red, thumb_crease_color.green, thumb_crease_color.blue);
+	cairo_set_line_width(cairo, crease_width);
+	cairo_stroke(cairo);
+
 	cairo_restore(cairo);
 }
 
