@@ -201,8 +201,14 @@ const void* AirwindowsCompressorUIPlugin::get_extension(const char* id)
 	if ((extension = posix_fd_extension->for_name(id))) ;
 	else if ((extension = cairo_gui_extension->for_name(id))) ;
 	else if ((extension = audio_ports_extension->for_name(id))) ;
-	else if ((extension = params_extension->for_name(id))) ;
-	else if ((extension = state_extension->for_name(id))) ;
+	else if ((extension = params_extension->for_name(id))) {
+		if (parameter_infos.size() == 0)
+			extension = nullptr;
+		}
+	else if ((extension = state_extension->for_name(id))) {
+		if (parameter_infos.size() == 0)
+			extension = nullptr;
+		}
 	return extension;
 }
 
