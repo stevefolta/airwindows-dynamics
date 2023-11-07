@@ -213,6 +213,8 @@ void Pressure4Plugin::processDoubleReplacing(double **inputs, double **outputs, 
 
 	double inputSampleL;
 	double inputSampleR;
+
+	double min_coefficient = 1.0;
  
 
     while (--sampleFrames >= 0)
@@ -305,6 +307,9 @@ void Pressure4Plugin::processDoubleReplacing(double **inputs, double **outputs, 
 		}
 		//applied compression with vari-vari-µ-µ-µ-µ-µ-µ-is-the-kitten-song o/~
 		//applied gain correction to control output level- tends to constrain sound rather than inflate it
+
+		if (coefficient < min_coefficient)
+			min_coefficient = coefficient;
 		
 		if (outputGain != 1.0) {
 			inputSampleL *= outputGain;

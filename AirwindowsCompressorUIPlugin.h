@@ -8,6 +8,8 @@
 #include <stdint.h>
 #include <math.h>
 
+class HorizontalSlider;
+
 typedef int32_t VstInt32;
 
 
@@ -65,6 +67,8 @@ class AirwindowsCompressorUIPlugin : public CLAPPlugin {
 		uint32_t gui_width = default_gui_width, gui_height = default_gui_height;
 		std::vector<clap_param_info_t> parameter_infos;
 		std::vector<double> param_values, param_mods;
+
+		HorizontalSlider* slider = nullptr;
 
 		class CairoGUI : public ::CairoGUI {
 			public:

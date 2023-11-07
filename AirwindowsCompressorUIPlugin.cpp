@@ -4,7 +4,9 @@
 #include "CLAPAudioPortsExtension.h"
 #include "CLAPParamsExtension.h"
 #include "CLAPStateExtension.h"
+#include "HorizontalSlider.h"
 #include <sstream>
+#include <iostream>
 #include <stdio.h>
 
 
@@ -13,6 +15,8 @@ AirwindowsCompressorUIPlugin::AirwindowsCompressorUIPlugin(
 	: CLAPPlugin(descriptor, host), cairo_gui(this)
 {
 	/***/
+	slider = new HorizontalSlider(&cairo_gui);
+	layout();
 }
 
 
@@ -52,6 +56,7 @@ bool AirwindowsCompressorUIPlugin::init()
 AirwindowsCompressorUIPlugin::~AirwindowsCompressorUIPlugin()
 {
 	/***/
+	delete slider;
 
 	delete posix_fd_extension;
 	delete cairo_gui_extension;
@@ -196,6 +201,7 @@ bool AirwindowsCompressorUIPlugin::get_gui_size(uint32_t* width_out, uint32_t* h
 
 bool AirwindowsCompressorUIPlugin::resize_gui(uint32_t width, uint32_t height)
 {
+SFX std::cerr << "- resize_gui(" << width << ", " << height << ")" << std::endl;
 	gui_width = width;
 	gui_height = height;
 	layout();
@@ -205,7 +211,20 @@ bool AirwindowsCompressorUIPlugin::resize_gui(uint32_t width, uint32_t height)
 
 void AirwindowsCompressorUIPlugin::paint_gui()
 {
+SFX std::cerr << "- paint_gui()" << std::endl;
+	auto cairo = cairo_gui_extension->cairo;
+	cairo_push_group(cairo);
+
+	// Background.
+	cairo_set_source_rgb(cairo, 1.0, 1.0, 1.0);
+	cairo_paint(cairo);
+
 	/***/
+	slider->paint();
+
+	// Blit to screen.
+	cairo_pop_group_to_source(cairo);
+	cairo_paint(cairo);
 }
 
 
@@ -358,7 +377,9 @@ void AirwindowsCompressorUIPlugin::process_event(const clap_event_header_t* even
 
 void AirwindowsCompressorUIPlugin::layout()
 {
+	static const double margin = 6.0;
 	/***/
+	slider->rect = { margin, margin, gui_width - 2 * margin, 20.0 };
 }
 
 
