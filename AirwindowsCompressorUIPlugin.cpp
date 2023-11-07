@@ -315,8 +315,13 @@ void AirwindowsCompressorUIPlugin::main_thread_tick()
 			}
 		}
 
-	if (need_refresh)
+	if (need_refresh) {
+		// Some DAWs (looking at you, Reaper) have a tendency to starve us of
+		// on_fd() calls while running ticks at 30fps.  So do one ourself, so the
+		// user can move the controls while the meter is animating.
+		on_fd(0, 0);
 		cairo_gui_extension->refresh();
+		}
 }
 
 
