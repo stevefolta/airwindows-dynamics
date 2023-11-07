@@ -8,7 +8,7 @@
 #include <stdint.h>
 #include <math.h>
 
-class HorizontalSlider;
+class ParameterWidget;
 class Widget;
 
 typedef int32_t VstInt32;
@@ -69,7 +69,8 @@ class AirwindowsCompressorUIPlugin : public CLAPPlugin {
 		std::vector<clap_param_info_t> parameter_infos;
 		std::vector<double> param_values, param_mods;
 
-		HorizontalSlider* slider = nullptr;
+		ParameterWidget* param_widget = nullptr;
+		std::vector<ParameterWidget*> parameter_widgets;
 		Widget* tracking_widget = nullptr;
 
 		class CairoGUI : public ::CairoGUI {

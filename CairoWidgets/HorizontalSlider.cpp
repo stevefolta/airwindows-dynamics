@@ -67,11 +67,16 @@ bool HorizontalSlider::mouse_released(int x, int y)
 		return false;
 		}
 	*/
+
+	pressed = false;
 	return true;
 }
 
 void HorizontalSlider::mouse_moved(int x, int y)
 {
+	if (!pressed)
+		return;
+
 	value = (x - drag_offset - rect.x) * (max_value - min_value) / (rect.width - thumb_width) + min_value;
 	if (value < min_value)
 		value = min_value;

@@ -4,7 +4,7 @@
 #include "CLAPAudioPortsExtension.h"
 #include "CLAPParamsExtension.h"
 #include "CLAPStateExtension.h"
-#include "HorizontalSlider.h"
+#include "ParameterWidget.h"
 #include <sstream>
 #include <iostream>
 #include <stdio.h>
@@ -14,9 +14,6 @@ AirwindowsCompressorUIPlugin::AirwindowsCompressorUIPlugin(
 	const clap_plugin_descriptor_t* descriptor, const clap_host_t* host)
 	: CLAPPlugin(descriptor, host), cairo_gui(this)
 {
-	/***/
-	slider = new HorizontalSlider(&cairo_gui);
-	layout();
 }
 
 
@@ -32,8 +29,7 @@ bool AirwindowsCompressorUIPlugin::init()
 	const auto param_names = parameter_names();
 	clap_id id = 0;
 	for (const auto& name: param_names) {
-		double cur_value = 0.0;
-		get_param_value(id, &cur_value);
+		double cur_value = get_parameter(id);
 		parameter_infos.push_back((clap_param_info_t) {
 			.id = id,
 			.flags =
@@ -49,14 +45,24 @@ bool AirwindowsCompressorUIPlugin::init()
 		id += 1;
 		}
 
+	// Create parameter widgets.
+	id = 0;
+	for (const auto& name: param_names) {
+		ParameterWidget* widget = new ParameterWidget(&cairo_gui, id, name);
+		widget->set_value(param_values[id]);
+		parameter_widgets.push_back(widget);
+		id += 1;
+		}
+	layout();
+
 	return true;
 }
 
 
 AirwindowsCompressorUIPlugin::~AirwindowsCompressorUIPlugin()
 {
-	/***/
-	delete slider;
+	for (auto widget: parameter_widgets)
+		delete widget;
 
 	delete posix_fd_extension;
 	delete cairo_gui_extension;
@@ -217,8 +223,8 @@ void AirwindowsCompressorUIPlugin::paint_gui()
 	cairo_set_source_rgb(cairo, 1.0, 1.0, 1.0);
 	cairo_paint(cairo);
 
-	/***/
-	slider->paint();
+	for (auto widget: parameter_widgets)
+		widget->paint();
 
 	// Blit to screen.
 	cairo_pop_group_to_source(cairo);
@@ -231,9 +237,13 @@ void AirwindowsCompressorUIPlugin::mouse_pressed(int32_t x, int32_t y, int butto
 	if (button != Button1)
 		return;
 
-	if (slider->contains(x, y))
-		tracking_widget = slider;
-	/***/
+	for (auto widget: parameter_widgets) {
+		if (widget->contains(x, y)) {
+			tracking_widget = widget;
+			break;
+			}
+		}
+
 	if (tracking_widget)
 		tracking_widget->mouse_pressed(x, y);
 	cairo_gui_extension->refresh();
@@ -392,9 +402,16 @@ void AirwindowsCompressorUIPlugin::process_event(const clap_event_header_t* even
 void AirwindowsCompressorUIPlugin::layout()
 {
 	static const double margin = 6.0;
-	/***/
-	slider->rect = { margin, margin, gui_width - 2 * margin, 20.0 };
-}
+	static const double parameter_height = 40;
+	static const double parameter_spacing = 8.0;
 
+	double y = margin;
+	double parameter_width = gui_width - 2 * margin;
+	for (auto widget: parameter_widgets) {
+		widget->rect = { margin, y, parameter_width, parameter_height };
+		widget->layout();
+		y += parameter_height + parameter_spacing;
+		}
+}
 
 
