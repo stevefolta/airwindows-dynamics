@@ -9,6 +9,7 @@
 #include <math.h>
 
 class ParameterWidget;
+class CompressionMeter;
 class Widget;
 
 typedef int32_t VstInt32;
@@ -70,7 +71,11 @@ class AirwindowsCompressorUIPlugin : public CLAPPlugin {
 		std::vector<double> param_values, param_mods;
 
 		std::vector<ParameterWidget*> parameter_widgets;
+		CompressionMeter* compression_meter = nullptr;
 		Widget* tracking_widget = nullptr;
+
+		int32_t samples_left_until_meter_update = 0;
+		double min_gain = 1.0;
 
 		class CairoGUI : public ::CairoGUI {
 			public:
@@ -90,5 +95,7 @@ class AirwindowsCompressorUIPlugin : public CLAPPlugin {
 
 		void process_event(const clap_event_header_t* event);
 		void layout();
+
+		void set_min_gain(double gain, uint32_t num_samples);
 	};
 

@@ -5,6 +5,7 @@
 #include "CLAPParamsExtension.h"
 #include "CLAPStateExtension.h"
 #include "ParameterWidget.h"
+#include "CompressionMeter.h"
 #include "Messages.h"
 #include <sstream>
 #include <iostream>
@@ -54,6 +55,8 @@ bool AirwindowsCompressorUIPlugin::init()
 		parameter_widgets.push_back(widget);
 		id += 1;
 		}
+
+	compression_meter = new CompressionMeter(&cairo_gui);
 	layout();
 
 	return true;
@@ -242,6 +245,7 @@ void AirwindowsCompressorUIPlugin::paint_gui()
 
 	for (auto widget: parameter_widgets)
 		widget->paint();
+	compression_meter->paint();
 
 	// Blit to screen.
 	cairo_pop_group_to_source(cairo);
@@ -295,7 +299,24 @@ void AirwindowsCompressorUIPlugin::mouse_moved(int32_t x, int32_t y)
 
 void AirwindowsCompressorUIPlugin::main_thread_tick()
 {
-	/***/
+	// Get messages from the audio thread.
+	bool need_refresh = false;
+	while (true) {
+		auto message = audio_to_main_queue.pop_front();
+		if (message.id < 0)
+			break;
+		switch (message.id) {
+			case MostCompression:
+				if (message.double_value != compression_meter->gain) {
+					compression_meter->gain = message.double_value;
+					need_refresh = true;
+					}
+				break;
+			}
+		}
+
+	if (need_refresh)
+		cairo_gui_extension->refresh();
 }
 
 
@@ -429,14 +450,37 @@ void AirwindowsCompressorUIPlugin::layout()
 	static const double margin = 6.0;
 	static const double parameter_height = 40;
 	static const double parameter_spacing = 8.0;
+	static const double meter_width = 60.0;
+	static const double h_spacing = 12.0;
 
 	double y = margin;
-	double parameter_width = gui_width - 2 * margin;
+	double parameter_width = gui_width - 2 * margin - meter_width - h_spacing;
 	for (auto widget: parameter_widgets) {
 		widget->rect = { margin, y, parameter_width, parameter_height };
 		widget->layout();
 		y += parameter_height + parameter_spacing;
 		}
+	compression_meter->rect = { gui_width - margin - meter_width, margin, meter_width, gui_height - 2 * margin };
 }
+
+
+void AirwindowsCompressorUIPlugin::set_min_gain(double gain, uint32_t num_samples)
+{
+	static const int updates_per_second = 30;
+
+	if (gain < min_gain)
+		min_gain = gain;
+
+	// Time to update?
+	samples_left_until_meter_update -= num_samples;
+	if (samples_left_until_meter_update <= 0) {
+		audio_to_main_queue.send(MostCompression, min_gain);
+		min_gain = 1.0;
+		samples_left_until_meter_update = sample_rate / updates_per_second;
+		if (host)
+			host->request_callback(host);
+		}
+}
+
 
 

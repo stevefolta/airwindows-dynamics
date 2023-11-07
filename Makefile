@@ -1,7 +1,7 @@
 PLUGIN := AirwindowsCompressorsUI.clap
 SOURCES := AirwindowsCompressorsUI.cpp
 SOURCES += AirwindowsCompressorUIPlugin.cpp
-SOURCES += ParameterWidget.cpp
+SOURCES += ParameterWidget.cpp CompressionMeter.cpp
 SOURCES += Pressure4Plugin.cpp
 SOURCES += MessageQueue.cpp Settings.cpp SettingsParser.cpp
 AIRWINDOWS_DIR := from-airwindows
