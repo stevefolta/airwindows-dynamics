@@ -9,6 +9,7 @@
 #include <math.h>
 
 class HorizontalSlider;
+class Widget;
 
 typedef int32_t VstInt32;
 
@@ -69,6 +70,7 @@ class AirwindowsCompressorUIPlugin : public CLAPPlugin {
 		std::vector<double> param_values, param_mods;
 
 		HorizontalSlider* slider = nullptr;
+		Widget* tracking_widget = nullptr;
 
 		class CairoGUI : public ::CairoGUI {
 			public:

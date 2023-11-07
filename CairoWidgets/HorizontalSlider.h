@@ -10,6 +10,7 @@ class HorizontalSlider : public Widget {
 
 		double value = 0.0;
 		double min_value = 0.0, max_value = 1.0;
+		double page_factor = 0.1;
 
 		double track_height = 2.0, thumb_width = 10.0, thumb_line_width = 2.0;
 		Color track_color = { 0.5, 0.5, 0.5 };
@@ -23,5 +24,7 @@ class HorizontalSlider : public Widget {
 
 	protected:
 		bool pressed = false;
+		double drag_offset = 0.0;
+		double initial_value = 0.0;
 	};
 

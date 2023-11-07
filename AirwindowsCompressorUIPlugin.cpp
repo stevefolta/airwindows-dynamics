@@ -201,7 +201,6 @@ bool AirwindowsCompressorUIPlugin::get_gui_size(uint32_t* width_out, uint32_t* h
 
 bool AirwindowsCompressorUIPlugin::resize_gui(uint32_t width, uint32_t height)
 {
-SFX std::cerr << "- resize_gui(" << width << ", " << height << ")" << std::endl;
 	gui_width = width;
 	gui_height = height;
 	layout();
@@ -211,7 +210,6 @@ SFX std::cerr << "- resize_gui(" << width << ", " << height << ")" << std::endl;
 
 void AirwindowsCompressorUIPlugin::paint_gui()
 {
-SFX std::cerr << "- paint_gui()" << std::endl;
 	auto cairo = cairo_gui_extension->cairo;
 	cairo_push_group(cairo);
 
@@ -230,17 +228,33 @@ SFX std::cerr << "- paint_gui()" << std::endl;
 
 void AirwindowsCompressorUIPlugin::mouse_pressed(int32_t x, int32_t y, int button)
 {
+	if (button != Button1)
+		return;
+
+	if (slider->contains(x, y))
+		tracking_widget = slider;
 	/***/
+	if (tracking_widget)
+		tracking_widget->mouse_pressed(x, y);
+	cairo_gui_extension->refresh();
 }
 
 void AirwindowsCompressorUIPlugin::mouse_released(int32_t x, int32_t y, int button)
 {
-	/***/
+	if (button != Button1)
+		return;
+
+	if (tracking_widget && tracking_widget->mouse_released(x, y)) {
+		/***/
+		}
+	tracking_widget = nullptr;
+	cairo_gui_extension->refresh();
 }
 
 void AirwindowsCompressorUIPlugin::mouse_moved(int32_t x, int32_t y)
 {
-	/***/
+	if (tracking_widget)
+		tracking_widget->mouse_moved(x, y);
 }
 
 
