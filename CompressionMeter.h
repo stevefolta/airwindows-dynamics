@@ -13,8 +13,8 @@ class CompressionMeter : public Widget {
 		void paint();
 
 		static double max_decibels;
-		static Color background_color, meter_color, border_color;
-		static double border_width;
+		static Color background_color, meter_color, border_color, tick_color;
+		static double border_width, tick_width;
 
 	protected:
 	};
