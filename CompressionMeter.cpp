@@ -9,7 +9,8 @@ Color CompressionMeter::meter_color = { 0.0, 1.0, 0.0 };
 Color CompressionMeter::border_color = { 0.0, 0.0, 0.0 };
 Color CompressionMeter::tick_color = { 0.0, 0.0, 0.0, 0.25 };
 double CompressionMeter::border_width = 1.0;
-double CompressionMeter::tick_width = 0.0;
+double CompressionMeter::tick_width = 0.75;
+double CompressionMeter::tick_line_width = 0.5;
 
 
 void CompressionMeter::paint()
@@ -40,10 +41,13 @@ void CompressionMeter::paint()
 	double tick_db = 1.0;
 	double tick_spacing = rect.height / max_decibels;
 	double tick_y = rect.y + tick_db * tick_spacing;
+	double tick_x = rect.x + rect.width * (1 - tick_width) / 2;
+	double tick_abs_width = rect.width * tick_width;
 	for (; tick_db < max_decibels; tick_db += 1.0) {
-		cairo_move_to(cairo, rect.x, tick_y);
-		cairo_rel_line_to(cairo, rect.width, 0);
+		cairo_move_to(cairo, tick_x, tick_y);
+		cairo_rel_line_to(cairo, tick_abs_width, 0);
 		use_color(tick_color);
+		cairo_set_line_width(cairo, tick_line_width);
 		cairo_stroke(cairo);
 		tick_y += tick_spacing;
 		}
