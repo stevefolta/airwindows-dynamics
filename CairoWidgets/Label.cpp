@@ -1,6 +1,8 @@
 #include "Label.h"
 #include "CairoGUI.h"
 
+Color Label::default_color = { 0.0, 0.0, 0.0 };
+
 
 void Label::paint()
 {
@@ -18,7 +20,16 @@ void Label::paint()
 	cairo_set_font_size(cairo, rect.height);
 	cairo_font_extents_t font_extents;
 	cairo_font_extents(cairo, &font_extents);
-	cairo_move_to(cairo, rect.x, rect.y + font_extents.ascent);
+	double x = rect.x;
+	if (justification != LeftJustified) {
+		cairo_text_extents_t text_extents;
+		cairo_text_extents(cairo, label.c_str(), &text_extents);
+		if (justification == RightJustified)
+			x += rect.width - (text_extents.width + text_extents.x_bearing);
+		else
+			x += (rect.width - text_extents.width) / 2 - text_extents.x_bearing;
+		}
+	cairo_move_to(cairo, x, rect.y + font_extents.ascent);
 	cairo_set_source_rgb(cairo, color.red, color.green, color.blue);
 	cairo_show_text(cairo, label.c_str());
 
