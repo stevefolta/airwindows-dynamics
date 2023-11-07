@@ -213,6 +213,8 @@ bool CLAPCairoGUIExtension::resize(uint32_t width, uint32_t height)
 
 void CLAPCairoGUIExtension::on_fd(int fd, clap_posix_fd_flags_t flags)
 {
+	if (display == nullptr)
+		return;
 	XFlush(display);
 
 	if (XPending(display)) {
