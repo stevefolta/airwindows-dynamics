@@ -14,7 +14,7 @@ class CompressionMeter : public Widget {
 
 		static double max_decibels;
 		static Color background_color, meter_color, border_color, tick_color;
-		static double border_width, tick_width, tick_line_width;
+		static double border_width, tick_width, tick_5_width, tick_line_width;
 
 	protected:
 	};
