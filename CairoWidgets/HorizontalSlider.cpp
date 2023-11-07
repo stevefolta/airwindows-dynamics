@@ -61,10 +61,12 @@ void HorizontalSlider::mouse_pressed(int x, int y)
 bool HorizontalSlider::mouse_released(int x, int y)
 {
 	mouse_moved(x, y);
+	/* Use this to make it snap back to the initial value if not released inside the slider:
 	if (!contains(x, y)) {
 		value = initial_value;
 		return false;
 		}
+	*/
 	return true;
 }
 
