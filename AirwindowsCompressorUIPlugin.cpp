@@ -193,9 +193,6 @@ clap_process_status AirwindowsCompressorUIPlugin::process(const clap_process_t* 
 		cur_frame = next_event_frame;
 		}
 
-	// Send info back to the main thread.
-	/***/
-
 	return CLAP_PROCESS_CONTINUE;
 }
 
@@ -456,7 +453,7 @@ void AirwindowsCompressorUIPlugin::layout()
 	static const double parameter_height = 40;
 	static const double parameter_spacing = 8.0;
 	static const double meter_width = 60.0;
-	static const double h_spacing = 12.0;
+	static const double h_spacing = 24.0;
 
 	double y = margin;
 	double parameter_width = gui_width - 2 * margin - meter_width - h_spacing;
