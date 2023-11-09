@@ -3,6 +3,7 @@
 #include "curvePlugin.h"
 #include "ButterComp2Plugin.h"
 #include "Pop2Plugin.h"
+#include "VariMu.h"
 #include <vector>
 #include <string_view>
 #include <iostream>
@@ -53,6 +54,17 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 			nullptr,
 			},
 		},
+	{
+		.clap_version = CLAP_VERSION_INIT,
+		.id = "airwindows.net.stevefolta.VariMu",
+		.name = "VariMu UI",
+		.vendor = "airwindows / Steve Folta",
+		.features = (const char*[]) {
+			CLAP_PLUGIN_FEATURE_AUDIO_EFFECT,
+			CLAP_PLUGIN_FEATURE_COMPRESSOR,
+			nullptr,
+			},
+		},
 	};
 
 class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
@@ -71,6 +83,8 @@ class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
 				return new ButterComp2Plugin(descriptor, host);
 			else if (name == "Pop2 UI")
 				return new Pop2Plugin(descriptor, host);
+			else if (name == "VariMu UI")
+				return new VariMu(descriptor, host);
 			return nullptr;
 			}
 	};
