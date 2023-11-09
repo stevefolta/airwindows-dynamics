@@ -76,9 +76,11 @@ clean:
 tags:
 	ctags -R .
 
+NON_FILES = AirwindowsCompressorsUI.h $(foreach source,$(AIRWINDOWS_SOURCES),$(AIRWINDOWS_DIR)/$(source:.cpp=.h))
 .PHONY: edit-all
 edit-all:
-	@ $(EDITOR) $(filter-out AirwindowsCompressorsUI.h,$(foreach source,$(SOURCES),$(source:.cpp=.h) $(source)))
+	@ echo "NON_FILES: $(NON_FILES)"
+	@ $(EDITOR) $(filter-out $(NON_FILES),$(foreach source,$(SOURCES),$(source:.cpp=.h) $(source)))
 
 .PHONY: validate
 validate: $(PLUGIN)
