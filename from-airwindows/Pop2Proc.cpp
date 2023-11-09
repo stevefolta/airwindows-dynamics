@@ -132,28 +132,21 @@ void Pop2Plugin::processReplacing(float **inputs, float **outputs, VstInt32 samp
 		}
 		//got coefficients, adjusted speeds for R
 		
-		double cur_min_gain = 1.0;
 		if (flip) {
-			double gain = pow(muCoefficientAL,2);
-			inputSampleL *= gain;
-			if (gain < cur_min_gain) cur_min_gain = gain;
-			gain = pow(muCoefficientAR,2);
-			inputSampleR *= gain;
-			if (gain < cur_min_gain) cur_min_gain = gain;
+			inputSampleL *= pow(muCoefficientAL,2);
+			inputSampleR *= pow(muCoefficientAR,2);
 		} else {
-			double gain = pow(muCoefficientBL,2);
-			inputSampleL *= gain;
-			if (gain < cur_min_gain) cur_min_gain = gain;
-			gain = pow(muCoefficientBR,2);
-			inputSampleR *= gain;
-			if (gain < cur_min_gain) cur_min_gain = gain;
+			inputSampleL *= pow(muCoefficientBL,2);
+			inputSampleR *= pow(muCoefficientBR,2);
 		}
 		inputSampleL *= muMakeupGain;
 		inputSampleR *= muMakeupGain;
 		flip = !flip;
 		//end compressor section
-		if (cur_min_gain < min_gain)
-			min_gain = cur_min_gain;
+		double gain = inputSampleL / drySampleL;
+		if (gain < min_gain) min_gain = gain;
+		gain = inputSampleR / drySampleR;
+		if (gain < min_gain) min_gain = gain;
 		
 		//begin ClipOnly2 stereo as a little, compressed chunk that can be dropped into code
 		if (inputSampleL > 4.0) inputSampleL = 4.0;
@@ -343,28 +336,21 @@ void Pop2Plugin::processDoubleReplacing(double **inputs, double **outputs, VstIn
 		}
 		//got coefficients, adjusted speeds for R
 		
-		double cur_min_gain = 1.0;
 		if (flip) {
-			double gain = pow(muCoefficientAL,2);
-			inputSampleL *= gain;
-			if (gain < cur_min_gain) cur_min_gain = gain;
-			gain = pow(muCoefficientAR,2);
-			inputSampleR *= gain;
-			if (gain < cur_min_gain) cur_min_gain = gain;
+			inputSampleL *= pow(muCoefficientAL,2);
+			inputSampleR *= pow(muCoefficientAR,2);
 		} else {
-			double gain = pow(muCoefficientBL,2);
-			inputSampleL *= gain;
-			if (gain < cur_min_gain) cur_min_gain = gain;
-			gain = pow(muCoefficientBR,2);
-			inputSampleR *= gain;
-			if (gain < cur_min_gain) cur_min_gain = gain;
+			inputSampleL *= pow(muCoefficientBL,2);
+			inputSampleR *= pow(muCoefficientBR,2);
 		}
 		inputSampleL *= muMakeupGain;
 		inputSampleR *= muMakeupGain;
 		flip = !flip;
 		//end compressor section
-		if (cur_min_gain < min_gain)
-			min_gain = cur_min_gain;
+		double gain = inputSampleL / drySampleL;
+		if (gain < min_gain) min_gain = gain;
+		gain = inputSampleR / drySampleR;
+		if (gain < min_gain) min_gain = gain;
 		
 		//begin ClipOnly2 stereo as a little, compressed chunk that can be dropped into code
 		if (inputSampleL > 4.0) inputSampleL = 4.0;
