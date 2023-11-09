@@ -3,7 +3,6 @@
 #include "Decibels.h"
 
 
-double CompressionMeter::max_decibels = 20.0;
 Color CompressionMeter::background_color = { 1.0, 1.0, 1.0 };
 Color CompressionMeter::meter_color = { 0.0, 1.0, 0.0 };
 Color CompressionMeter::border_color = { 0.0, 0.0, 0.0 };

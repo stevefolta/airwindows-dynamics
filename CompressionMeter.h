@@ -9,10 +9,10 @@ class CompressionMeter : public Widget {
 			: Widget(gui_in, rect_in) {}
 
 		double gain = 1.0;
+		double max_decibels = 20.0;
 
 		void paint();
 
-		static double max_decibels;
 		static Color background_color, meter_color, border_color, tick_color;
 		static double border_width, tick_width, tick_5_width, tick_line_width;
 
