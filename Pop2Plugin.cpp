@@ -1,0 +1,77 @@
+#include "Pop2Plugin.h"
+
+
+Pop2Plugin::Pop2Plugin(const clap_plugin_descriptor_t* descriptor, const clap_host_t* host)
+	: AirwindowsCompressorUIPlugin(descriptor, host)
+{
+	A = 0.5;
+	B = 0.5;
+	C = 0.5;
+	D = 0.5;
+	E = 1.0;
+	fpdL = 1.0; while (fpdL < 16386) fpdL = rand()*UINT32_MAX;
+	fpdR = 1.0; while (fpdR < 16386) fpdR = rand()*UINT32_MAX;
+
+	lastSampleL = 0.0;
+	wasPosClipL = false;
+	wasNegClipL = false;
+	lastSampleR = 0.0;
+	wasPosClipR = false;
+	wasNegClipR = false;
+	for (int x = 0; x < 16; x++) {intermediateL[x] = 0.0; intermediateR[x] = 0.0;}	
+
+	muVaryL = 0.0;
+	muAttackL = 0.0;
+	muNewSpeedL = 1000.0;
+	muSpeedAL = 1000.0;
+	muSpeedBL = 1000.0;
+	muCoefficientAL = 1.0;
+	muCoefficientBL = 1.0;
+
+	muVaryR = 0.0;
+	muAttackR = 0.0;
+	muNewSpeedR = 1000.0;
+	muSpeedAR = 1000.0;
+	muSpeedBR = 1000.0;
+	muCoefficientAR = 1.0;
+	muCoefficientBR = 1.0;
+
+	flip = false;
+	//this is reset: values being initialized only once. Startup values, whatever they are.
+}
+
+
+const std::vector<std::string> parameter_names = {
+	"Compress", "Attack", "Release", "Drive", "Dry/Wet",
+	};
+
+const std::vector<std::string>& Pop2Plugin::parameter_names()
+{
+	return ::parameter_names;
+}
+
+double Pop2Plugin::get_parameter(clap_id param_id)
+{
+	switch (param_id) {
+		case 0: return A;
+		case 1: return B;
+		case 2: return C;
+		case 3: return D;
+		case 4: return E;
+		}
+	return 0.0;
+}
+
+void Pop2Plugin::set_parameter(clap_id param_id, double value)
+{
+	switch (param_id) {
+		case 0: A = value; break;
+		case 1: B = value; break;
+		case 2: C = value; break;
+		case 3: D = value; break;
+		case 4: E = value; break;
+		}
+}
+
+
+

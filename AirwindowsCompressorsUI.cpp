@@ -2,6 +2,7 @@
 #include "Pressure4Plugin.h"
 #include "curvePlugin.h"
 #include "ButterComp2Plugin.h"
+#include "Pop2Plugin.h"
 #include <vector>
 #include <string_view>
 #include <iostream>
@@ -41,6 +42,17 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 			nullptr,
 			},
 		},
+	{
+		.clap_version = CLAP_VERSION_INIT,
+		.id = "airwindows.net.stevefolta.Pop2",
+		.name = "Pop2 UI",
+		.vendor = "airwindows / Steve Folta",
+		.features = (const char*[]) {
+			CLAP_PLUGIN_FEATURE_AUDIO_EFFECT,
+			CLAP_PLUGIN_FEATURE_COMPRESSOR,
+			nullptr,
+			},
+		},
 	};
 
 class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
@@ -57,6 +69,8 @@ class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
 				return new curvePlugin(descriptor, host);
 			else if (name == "ButterComp2 UI")
 				return new ButterComp2Plugin(descriptor, host);
+			else if (name == "Pop2 UI")
+				return new Pop2Plugin(descriptor, host);
 			return nullptr;
 			}
 	};
