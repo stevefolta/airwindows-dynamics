@@ -8,6 +8,7 @@
 #include "VariMu.h"
 #include "PurestSquish.h"
 #include "Dynamics.h"
+#include "DigitalBlack.h"
 #include <vector>
 #include <string_view>
 #include <iostream>
@@ -17,6 +18,11 @@
 static const char* default_features[] = {
 	CLAP_PLUGIN_FEATURE_AUDIO_EFFECT,
 	CLAP_PLUGIN_FEATURE_COMPRESSOR,
+	nullptr,
+	};
+static const char* gate_features[] = {
+	CLAP_PLUGIN_FEATURE_AUDIO_EFFECT,
+	CLAP_PLUGIN_FEATURE_GATE,
 	nullptr,
 	};
 
@@ -89,6 +95,13 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 			nullptr,
 			},
 		},
+	{
+		.clap_version = CLAP_VERSION_INIT,
+		.id = ID_PREFIX "DigitalBlack",
+		.name = "DigitalBlack UI",
+		.vendor = "airwindows / Steve Folta",
+		.features = gate_features,
+		},
 	};
 
 class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
@@ -117,6 +130,8 @@ class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
 				return new PurestSquish(descriptor, host);
 			else if (id == ID_PREFIX "Dynamics")
 				return new Dynamics(descriptor, host);
+			else if (id == ID_PREFIX "DigitalBlack")
+				return new DigitalBlack(descriptor, host);
 			return nullptr;
 			}
 	};
