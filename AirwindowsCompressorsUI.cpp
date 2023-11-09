@@ -10,10 +10,12 @@
 #include <iostream>
 
 
+#define ID_PREFIX "airwindows.net.stevefolta.compressors."
+
 static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 	{
 		.clap_version = CLAP_VERSION_INIT,
-		.id = "airwindows.net.stevefolta.Pressure4",
+		.id = ID_PREFIX "Pressure4",
 		.name = "Pressure4 UI",
 		.vendor = "airwindows / Steve Folta",
 		.features = (const char*[]) {
@@ -24,7 +26,7 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 		},
 	{
 		.clap_version = CLAP_VERSION_INIT,
-		.id = "airwindows.net.stevefolta.curve",
+		.id = ID_PREFIX "curve",
 		.name = "curve UI",
 		.vendor = "airwindows / Steve Folta",
 		.features = (const char*[]) {
@@ -35,7 +37,7 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 		},
 	{
 		.clap_version = CLAP_VERSION_INIT,
-		.id = "airwindows.net.stevefolta.ButterComp2",
+		.id = ID_PREFIX "ButterComp2",
 		.name = "ButterComp2 UI",
 		.vendor = "airwindows / Steve Folta",
 		.features = (const char*[]) {
@@ -46,7 +48,7 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 		},
 	{
 		.clap_version = CLAP_VERSION_INIT,
-		.id = "airwindows.net.stevefolta.Pop2",
+		.id = ID_PREFIX "Pop2",
 		.name = "Pop2 UI",
 		.vendor = "airwindows / Steve Folta",
 		.features = (const char*[]) {
@@ -57,7 +59,7 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 		},
 	{
 		.clap_version = CLAP_VERSION_INIT,
-		.id = "airwindows.net.stevefolta.VariMu",
+		.id = ID_PREFIX "VariMu",
 		.name = "VariMu UI",
 		.vendor = "airwindows / Steve Folta",
 		.features = (const char*[]) {
@@ -68,7 +70,7 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 		},
 	{
 		.clap_version = CLAP_VERSION_INIT,
-		.id = "airwindows.net.stevefolta.PurestSquish",
+		.id = ID_PREFIX "PurestSquish",
 		.name = "PurestSquish UI",
 		.vendor = "airwindows / Steve Folta",
 		.features = (const char*[]) {
@@ -86,18 +88,18 @@ class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
 			}
 
 		CLAPPlugin* create_plugin(const clap_plugin_descriptor_t* descriptor, const clap_host_t* host) {
-			std::string_view name = descriptor->name;
-			if (name == "Pressure4 UI")
+			std::string_view id = descriptor->id;
+			if (id == ID_PREFIX "Pressure4")
 				return new Pressure4Plugin(descriptor, host);
-			else if (name == "curve UI")
+			else if (id == ID_PREFIX "curve")
 				return new curvePlugin(descriptor, host);
-			else if (name == "ButterComp2 UI")
+			else if (id == ID_PREFIX "ButterComp2")
 				return new ButterComp2Plugin(descriptor, host);
-			else if (name == "Pop2 UI")
+			else if (id == ID_PREFIX "Pop2")
 				return new Pop2Plugin(descriptor, host);
-			else if (name == "VariMu UI")
+			else if (id == ID_PREFIX "VariMu")
 				return new VariMu(descriptor, host);
-			else if (name == "PurestSquish UI")
+			else if (id == ID_PREFIX "PurestSquish")
 				return new PurestSquish(descriptor, host);
 			return nullptr;
 			}
