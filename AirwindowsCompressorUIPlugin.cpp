@@ -28,9 +28,8 @@ bool AirwindowsCompressorUIPlugin::init()
 	state_extension = new CLAPStateExtension(this);
 
 	// Set up parameters.
-	const auto param_names = parameter_names();
 	clap_id id = 0;
-	for (const auto& name: param_names) {
+	for (const auto& name: parameter_names) {
 		double cur_value = get_parameter(id);
 		parameter_infos.push_back((clap_param_info_t) {
 			.id = id,
@@ -48,7 +47,7 @@ bool AirwindowsCompressorUIPlugin::init()
 		}
 
 	// Create parameter widgets.
-	for (id = 0; id < param_names.size(); ++id) {
+	for (id = 0; id < parameter_names.size(); ++id) {
 		ParameterWidget* widget = new ParameterWidget(&cairo_gui, id, this);
 		widget->set_value(param_values[id]);
 		parameter_widgets.push_back(widget);

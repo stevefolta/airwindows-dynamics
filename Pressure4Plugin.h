@@ -7,7 +7,6 @@ class Pressure4Plugin : public AirwindowsCompressorUIPlugin {
 	public:
 		Pressure4Plugin(const clap_plugin_descriptor_t* descriptor, const clap_host_t* host);
 
-		const std::vector<std::string>& parameter_names();
 		double get_parameter(clap_id param_id);
 		void set_parameter(clap_id param_id, double value);
 

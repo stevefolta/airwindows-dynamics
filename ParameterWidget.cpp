@@ -10,7 +10,7 @@ double ParameterWidget::spacer_factor = 0.1;
 ParameterWidget::ParameterWidget(CairoGUI* gui_in, uint32_t id_in, AirwindowsCompressorUIPlugin* plugin_in, Rect rect_in)
 	: Widget(gui_in, rect_in), id(id_in), plugin(plugin_in)
 {
-	name_label = new Label(gui_in, plugin->parameter_names()[id]);
+	name_label = new Label(gui_in, plugin->parameter_names[id]);
 	name_label->font_weight = CAIRO_FONT_WEIGHT_NORMAL;
 	value_label = new Label(gui_in, "--");
 	value_label->font_weight = CAIRO_FONT_WEIGHT_NORMAL;

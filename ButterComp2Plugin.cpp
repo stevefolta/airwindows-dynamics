@@ -4,6 +4,8 @@
 ButterComp2Plugin::ButterComp2Plugin(const clap_plugin_descriptor_t* descriptor, const clap_host_t* host)
 	: AirwindowsCompressorUIPlugin(descriptor, host)
 {
+	parameter_names = { "Compress", "Output", "Dry/Wet", };
+
 	controlAposL = 1.0;
 	controlAnegL = 1.0;
 	controlBposL = 1.0;
@@ -29,15 +31,6 @@ ButterComp2Plugin::ButterComp2Plugin(const clap_plugin_descriptor_t* descriptor,
 	//this is reset: values being initialized only once. Startup values, whatever they are.
 }
 
-
-const std::vector<std::string> parameter_names = {
-	"Compress", "Output", "Dry/Wet",
-	};
-
-const std::vector<std::string>& ButterComp2Plugin::parameter_names()
-{
-	return ::parameter_names;
-}
 
 double ButterComp2Plugin::get_parameter(clap_id param_id)
 {

@@ -7,7 +7,6 @@ class ButterComp2Plugin : public AirwindowsCompressorUIPlugin {
 	public:
 		ButterComp2Plugin(const clap_plugin_descriptor_t* descriptor, const clap_host_t* host);
 
-		const std::vector<std::string>& parameter_names();
 		double get_parameter(clap_id param_id);
 		void set_parameter(clap_id param_id, double value);
 		bool param_value_to_text(clap_id param_id, double value, char* out_buffer, uint32_t out_buffer_capacity);

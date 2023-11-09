@@ -4,6 +4,8 @@
 Pop2Plugin::Pop2Plugin(const clap_plugin_descriptor_t* descriptor, const clap_host_t* host)
 	: AirwindowsCompressorUIPlugin(descriptor, host)
 {
+	parameter_names = { "Compress", "Attack", "Release", "Drive", "Dry/Wet", };
+
 	A = 0.5;
 	B = 0.5;
 	C = 0.5;
@@ -40,15 +42,6 @@ Pop2Plugin::Pop2Plugin(const clap_plugin_descriptor_t* descriptor, const clap_ho
 	//this is reset: values being initialized only once. Startup values, whatever they are.
 }
 
-
-const std::vector<std::string> parameter_names = {
-	"Compress", "Attack", "Release", "Drive", "Dry/Wet",
-	};
-
-const std::vector<std::string>& Pop2Plugin::parameter_names()
-{
-	return ::parameter_names;
-}
 
 double Pop2Plugin::get_parameter(clap_id param_id)
 {

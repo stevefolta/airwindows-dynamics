@@ -52,11 +52,12 @@ class AirwindowsCompressorUIPlugin : public CLAPPlugin {
 
 		virtual void processReplacing(float** inputs, float** outputs, VstInt32 sampleFrames) = 0;
 		virtual void processDoubleReplacing(double** inputs, double** outputs, VstInt32 sampleFrames) = 0;
-		virtual const std::vector<std::string>& parameter_names() = 0;
 		virtual double get_parameter(clap_id param_id) = 0;
 		virtual void set_parameter(clap_id param_id, double value) = 0;
 
 		double getSampleRate() { return sample_rate; }
+
+		std::vector<std::string> parameter_names;
 
 	protected:
 		enum {

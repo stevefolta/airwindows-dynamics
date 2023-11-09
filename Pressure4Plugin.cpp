@@ -5,6 +5,8 @@
 Pressure4Plugin::Pressure4Plugin(const clap_plugin_descriptor_t* descriptor, const clap_host_t* host)
 	: AirwindowsCompressorUIPlugin(descriptor, host)
 {
+	parameter_names = { "Pressure", "Speed", "Mewiness", "Output Gain", };
+
 	A = 0.0;
 	B = 0.2;
 	C = 1.0;
@@ -23,11 +25,6 @@ Pressure4Plugin::Pressure4Plugin(const clap_plugin_descriptor_t* descriptor, con
 static const std::vector<std::string> parameter_names = {
 	"Pressure", "Speed", "Mewiness", "Output Gain",
 	};
-
-const std::vector<std::string>& Pressure4Plugin::parameter_names()
-{
-	return ::parameter_names;
-}
 
 double Pressure4Plugin::get_parameter(clap_id param_id)
 {

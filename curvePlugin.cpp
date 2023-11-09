@@ -11,14 +11,6 @@ curvePlugin::curvePlugin(const clap_plugin_descriptor_t* descriptor, const clap_
 }
 
 
-static const std::vector<std::string> parameter_names = {
-	};
-
-const std::vector<std::string>& curvePlugin::parameter_names()
-{
-	return ::parameter_names;
-}
-
 double curvePlugin::get_parameter(clap_id param_id)
 {
 	return 0.0;
