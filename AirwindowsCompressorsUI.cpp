@@ -1,5 +1,6 @@
 #include "AirwindowsCompressorUIPlugin.h"
 #include "Pressure4Plugin.h"
+#include "Pressure5.h"
 #include "curvePlugin.h"
 #include "ButterComp2Plugin.h"
 #include "Pop2Plugin.h"
@@ -17,6 +18,17 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 		.clap_version = CLAP_VERSION_INIT,
 		.id = ID_PREFIX "Pressure4",
 		.name = "Pressure4 UI",
+		.vendor = "airwindows / Steve Folta",
+		.features = (const char*[]) {
+			CLAP_PLUGIN_FEATURE_AUDIO_EFFECT,
+			CLAP_PLUGIN_FEATURE_COMPRESSOR,
+			nullptr,
+			},
+		},
+	{
+		.clap_version = CLAP_VERSION_INIT,
+		.id = ID_PREFIX "Pressure5",
+		.name = "Pressure5 UI",
 		.vendor = "airwindows / Steve Folta",
 		.features = (const char*[]) {
 			CLAP_PLUGIN_FEATURE_AUDIO_EFFECT,
@@ -91,6 +103,8 @@ class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
 			std::string_view id = descriptor->id;
 			if (id == ID_PREFIX "Pressure4")
 				return new Pressure4Plugin(descriptor, host);
+			else if (id == ID_PREFIX "Pressure5")
+				return new Pressure5(descriptor, host);
 			else if (id == ID_PREFIX "curve")
 				return new curvePlugin(descriptor, host);
 			else if (id == ID_PREFIX "ButterComp2")

@@ -22,10 +22,6 @@ Pressure4Plugin::Pressure4Plugin(const clap_plugin_descriptor_t* descriptor, con
 }
 
 
-static const std::vector<std::string> parameter_names = {
-	"Pressure", "Speed", "Mewiness", "Output Gain",
-	};
-
 double Pressure4Plugin::get_parameter(clap_id param_id)
 {
 	switch (param_id) {
