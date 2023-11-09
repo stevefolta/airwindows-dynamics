@@ -6,7 +6,6 @@
 class Pressure5 : public AirwindowsCompressorUIPlugin {
 	public:
 		Pressure5(const clap_plugin_descriptor_t* descriptor, const clap_host_t* host);
-		bool init();
 
 		double get_parameter(clap_id param_id);
 		void set_parameter(clap_id param_id, double value);

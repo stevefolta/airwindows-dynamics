@@ -54,6 +54,7 @@ bool AirwindowsCompressorUIPlugin::init()
 		}
 
 	compression_meter = new CompressionMeter(&cairo_gui);
+	compression_meter->max_decibels = meter_max_db;
 	layout();
 
 	return true;

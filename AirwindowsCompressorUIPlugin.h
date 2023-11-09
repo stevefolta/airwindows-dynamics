@@ -65,6 +65,8 @@ class AirwindowsCompressorUIPlugin : public CLAPPlugin {
 			default_gui_height = 300,
 			};
 
+		double meter_max_db = 20.0;
+
 		double sample_rate;
 		MessageQueue main_to_audio_queue, audio_to_main_queue;
 		uint32_t gui_width = default_gui_width, gui_height = default_gui_height;
