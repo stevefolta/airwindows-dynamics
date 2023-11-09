@@ -4,6 +4,7 @@
 #include "curvePlugin.h"
 #include "ButterComp2Plugin.h"
 #include "Pop2Plugin.h"
+#include "Pop.h"
 #include "VariMu.h"
 #include "PurestSquish.h"
 #include "Dynamics.h"
@@ -57,6 +58,13 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 		},
 	{
 		.clap_version = CLAP_VERSION_INIT,
+		.id = ID_PREFIX "Pop",
+		.name = "Pop UI",
+		.vendor = "airwindows / Steve Folta",
+		.features = default_features,
+		},
+	{
+		.clap_version = CLAP_VERSION_INIT,
 		.id = ID_PREFIX "VariMu",
 		.name = "VariMu UI",
 		.vendor = "airwindows / Steve Folta",
@@ -101,6 +109,8 @@ class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
 				return new ButterComp2Plugin(descriptor, host);
 			else if (id == ID_PREFIX "Pop2")
 				return new Pop2Plugin(descriptor, host);
+			else if (id == ID_PREFIX "Pop")
+				return new Pop(descriptor, host);
 			else if (id == ID_PREFIX "VariMu")
 				return new VariMu(descriptor, host);
 			else if (id == ID_PREFIX "PurestSquish")
