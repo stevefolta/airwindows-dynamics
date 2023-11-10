@@ -11,6 +11,7 @@
 #include "DigitalBlack.h"
 #include "Logical4.h"
 #include "Recurve.h"
+#include "Pyewacket.h"
 #include <vector>
 #include <string_view>
 #include <iostream>
@@ -118,6 +119,13 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 		.vendor = "airwindows / Steve Folta",
 		.features = default_features,
 		},
+	{
+		.clap_version = CLAP_VERSION_INIT,
+		.id = ID_PREFIX "Pyewacket",
+		.name = "Pyewacket UI",
+		.vendor = "airwindows / Steve Folta",
+		.features = default_features,
+		},
 	};
 
 class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
@@ -152,6 +160,8 @@ class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
 				return new Logical4(descriptor, host);
 			else if (id == ID_PREFIX "Recurve")
 				return new Recurve(descriptor, host);
+			else if (id == ID_PREFIX "Pyewacket")
+				return new Pyewacket(descriptor, host);
 			return nullptr;
 			}
 	};
