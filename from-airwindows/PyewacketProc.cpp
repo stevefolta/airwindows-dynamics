@@ -21,8 +21,8 @@ void Pyewacket::processReplacing(float **inputs, float **outputs, VstInt32 sampl
 	double fpNew = 1.0 - fpOld;
 	double inputSampleL;
 	double inputSampleR;
-	double drySampleL;
-	double drySampleR;
+	// Unused: double drySampleL;
+	// Unused: double drySampleR;
 	double bridgerectifier;
 	double temprectifier;
 	double inputSense;
@@ -51,8 +51,8 @@ void Pyewacket::processReplacing(float **inputs, float **outputs, VstInt32 sampl
 			inputSampleL *= inputGain;
 			inputSampleR *= inputGain;
 		}
-		drySampleL = inputSampleL;
-		drySampleR = inputSampleR;
+		// Unused: drySampleL = inputSampleL;
+		// Unused: drySampleR = inputSampleR;
 		inputSense = fabs(inputSampleL);
 		if (fabs(inputSampleR) > inputSense)
 			inputSense = fabs(inputSampleR);
@@ -137,8 +137,8 @@ void Pyewacket::processDoubleReplacing(double **inputs, double **outputs, VstInt
 	double fpNew = 1.0 - fpOld;
 	double inputSampleL;
 	double inputSampleR;
-	double drySampleL;
-	double drySampleR;
+	// Unused: double drySampleL;
+	// Unused: double drySampleR;
 	double bridgerectifier;
 	double temprectifier;
 	double inputSense;
@@ -167,8 +167,8 @@ void Pyewacket::processDoubleReplacing(double **inputs, double **outputs, VstInt
 			inputSampleL *= inputGain;
 			inputSampleR *= inputGain;
 		}
-		drySampleL = inputSampleL;
-		drySampleR = inputSampleR;
+		// Unused: drySampleL = inputSampleL;
+		// Unused: drySampleR = inputSampleR;
 		inputSense = fabs(inputSampleL);
 		if (fabs(inputSampleR) > inputSense)
 			inputSense = fabs(inputSampleR);
