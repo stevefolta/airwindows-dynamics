@@ -5,6 +5,7 @@ Pop::Pop(const clap_plugin_descriptor_t* descriptor, const clap_host_t* host)
 	: AirwindowsCompressorUIPlugin(descriptor, host)
 {
 	parameter_names = { "Intensity", "Output", "Dry/Wet" };
+	meter_max_db = 30.0;
 
 	A = 0.3;
 	B = 1.0;
