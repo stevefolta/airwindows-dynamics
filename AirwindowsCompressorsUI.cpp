@@ -15,6 +15,7 @@
 #include "BlockParty.h"
 #include "SoftGate.h"
 #include "Thunder.h"
+#include "Compresaturator.h"
 #include <vector>
 #include <string_view>
 #include <iostream>
@@ -150,6 +151,13 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 		.vendor = "airwindows / Steve Folta",
 		.features = default_features,
 		},
+	{
+		.clap_version = CLAP_VERSION_INIT,
+		.id = ID_PREFIX "Compresaturator",
+		.name = "Compresaturator UI",
+		.vendor = "airwindows / Steve Folta",
+		.features = default_features,
+		},
 	};
 
 class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
@@ -192,6 +200,8 @@ class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
 				return new SoftGate(descriptor, host);
 			else if (id == ID_PREFIX "Thunder")
 				return new Thunder(descriptor, host);
+			else if (id == ID_PREFIX "Compresaturator")
+				return new Compresaturator(descriptor, host);
 			return nullptr;
 			}
 	};
