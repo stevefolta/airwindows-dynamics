@@ -426,6 +426,32 @@ bool AirwindowsCompressorUIPlugin::load_state(const clap_istream_t* stream)
 }
 
 
+double AirwindowsCompressorUIPlugin::get_parameter(clap_id param_id)
+{
+	switch (param_id) {
+		case 0: return A;
+		case 1: return B;
+		case 2: return C;
+		case 3: return D;
+		case 4: return E;
+		case 5: return F;
+		}
+	return 0.0;
+}
+
+void AirwindowsCompressorUIPlugin::set_parameter(clap_id param_id, double value)
+{
+	switch (param_id) {
+		case 0: A = value; break;
+		case 1: B = value; break;
+		case 2: C = value; break;
+		case 3: D = value; break;
+		case 4: E = value; break;
+		case 5: F = value; break;
+		}
+}
+
+
 void AirwindowsCompressorUIPlugin::process_event(const clap_event_header_t* event)
 {
 	if (event->space_id != CLAP_CORE_EVENT_SPACE_ID)

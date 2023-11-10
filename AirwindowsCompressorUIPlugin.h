@@ -52,8 +52,8 @@ class AirwindowsCompressorUIPlugin : public CLAPPlugin {
 
 		virtual void processReplacing(float** inputs, float** outputs, VstInt32 sampleFrames) = 0;
 		virtual void processDoubleReplacing(double** inputs, double** outputs, VstInt32 sampleFrames) = 0;
-		virtual double get_parameter(clap_id param_id) = 0;
-		virtual void set_parameter(clap_id param_id, double value) = 0;
+		virtual double get_parameter(clap_id param_id);
+		virtual void set_parameter(clap_id param_id, double value);
 
 		double getSampleRate() { return sample_rate; }
 
@@ -66,6 +66,12 @@ class AirwindowsCompressorUIPlugin : public CLAPPlugin {
 			};
 
 		double meter_max_db = 20.0;
+
+		// Parameters.
+		// Not every Airwindows plugin uses these names, but the vast majority do,
+		// including all the dynamics plugins.  So we can avoid having to have many
+		// copies of get_parameter() and set_parameter() by making them common.
+		float A, B, C, D, E, F;
 
 		double sample_rate;
 		MessageQueue main_to_audio_queue, audio_to_main_queue;

@@ -11,14 +11,3 @@ Recurve::Recurve(const clap_plugin_descriptor_t* descriptor, const clap_host_t* 
 }
 
 
-double Recurve::get_parameter(clap_id param_id)
-{
-	return 0.0;
-}
-
-void Recurve::set_parameter(clap_id param_id, double value)
-{
-}
-
-
-

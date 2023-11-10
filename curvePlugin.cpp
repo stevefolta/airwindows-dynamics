@@ -11,13 +11,3 @@ curvePlugin::curvePlugin(const clap_plugin_descriptor_t* descriptor, const clap_
 }
 
 
-double curvePlugin::get_parameter(clap_id param_id)
-{
-	return 0.0;
-}
-
-void curvePlugin::set_parameter(clap_id param_id, double value)
-{
-}
-
-

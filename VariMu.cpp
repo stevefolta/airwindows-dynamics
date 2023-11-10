@@ -31,25 +31,3 @@ VariMu::VariMu(const clap_plugin_descriptor_t* descriptor, const clap_host_t* ho
 }
 
 
-double VariMu::get_parameter(clap_id param_id)
-{
-	switch (param_id) {
-		case 0: return A;
-		case 1: return B;
-		case 2: return C;
-		case 3: return D;
-		}
-	return 0.0;
-}
-
-void VariMu::set_parameter(clap_id param_id, double value)
-{
-	switch (param_id) {
-		case 0: A = value; break;
-		case 1: B = value; break;
-		case 2: C = value; break;
-		case 3: D = value; break;
-		}
-}
-
-

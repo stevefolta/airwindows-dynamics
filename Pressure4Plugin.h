@@ -7,9 +7,6 @@ class Pressure4Plugin : public AirwindowsCompressorUIPlugin {
 	public:
 		Pressure4Plugin(const clap_plugin_descriptor_t* descriptor, const clap_host_t* host);
 
-		double get_parameter(clap_id param_id);
-		void set_parameter(clap_id param_id, double value);
-
 		void processReplacing(float** inputs, float** outputs, VstInt32 sampleFrames);
 		void processDoubleReplacing(double** inputs, double** outputs, VstInt32 sampleFrames);
 
@@ -24,10 +21,5 @@ class Pressure4Plugin : public AirwindowsCompressorUIPlugin {
 		uint32_t fpdL;
 		uint32_t fpdR;
 		bool flip;
-
-		float A;
-		float B;
-		float C; //parameters. Always 0-1, and we scale/alter them elsewhere.
-		float D;
 	};
 

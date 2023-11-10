@@ -19,23 +19,3 @@ Pyewacket::Pyewacket(const clap_plugin_descriptor_t* descriptor, const clap_host
 }
 
 
-double Pyewacket::get_parameter(clap_id param_id)
-{
-	switch (param_id) {
-		case 0: return A;
-		case 1: return B;
-		case 2: return C;
-		}
-	return 0.0;
-}
-
-void Pyewacket::set_parameter(clap_id param_id, double value)
-{
-	switch (param_id) {
-		case 0: A = value; break;
-		case 1: B = value; break;
-		case 2: C = value; break;
-		}
-}
-
-

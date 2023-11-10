@@ -32,25 +32,6 @@ ButterComp2Plugin::ButterComp2Plugin(const clap_plugin_descriptor_t* descriptor,
 }
 
 
-double ButterComp2Plugin::get_parameter(clap_id param_id)
-{
-	switch (param_id) {
-		case 0: return A;
-		case 1: return B;
-		case 2: return C;
-		}
-	return 0.0;
-}
-
-void ButterComp2Plugin::set_parameter(clap_id param_id, double value)
-{
-	switch (param_id) {
-		case 0: A = value; break;
-		case 1: B = value; break;
-		case 2: C = value; break;
-		}
-}
-
 bool ButterComp2Plugin::param_value_to_text(clap_id param_id, double value, char* out_buffer, uint32_t out_buffer_capacity)
 {
 	if (param_id == 1)

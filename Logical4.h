@@ -7,9 +7,6 @@ class Logical4 : public AirwindowsCompressorUIPlugin {
 	public:
 		Logical4(const clap_plugin_descriptor_t* descriptor, const clap_host_t* host);
 
-		double get_parameter(clap_id param_id);
-		void set_parameter(clap_id param_id, double value);
-
 		void processReplacing(float** inputs, float** outputs, VstInt32 sampleFrames);
 		void processDoubleReplacing(double** inputs, double** outputs, VstInt32 sampleFrames);
 
@@ -105,11 +102,5 @@ class Logical4 : public AirwindowsCompressorUIPlugin {
 		//default stuff
 		uint32_t fpdL;
 		uint32_t fpdR;
-
-		float A;
-		float B;
-		float C;
-		float D;
-		float E;
 	};
 

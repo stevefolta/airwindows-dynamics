@@ -30,21 +30,3 @@ Thunder::Thunder(const clap_plugin_descriptor_t* descriptor, const clap_host_t* 
 }
 
 
-double Thunder::get_parameter(clap_id param_id)
-{
-	switch (param_id) {
-		case 0: return A;
-		case 1: return B;
-		}
-	return 0.0;
-}
-
-void Thunder::set_parameter(clap_id param_id, double value)
-{
-	switch (param_id) {
-		case 0: A = value; break;
-		case 1: B = value; break;
-		}
-}
-
-

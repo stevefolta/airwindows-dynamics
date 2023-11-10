@@ -7,9 +7,6 @@ class Pop : public AirwindowsCompressorUIPlugin {
 	public:
 		Pop(const clap_plugin_descriptor_t* descriptor, const clap_host_t* host);
 
-		double get_parameter(clap_id param_id);
-		void set_parameter(clap_id param_id, double value);
-
 		void processReplacing(float** inputs, float** outputs, VstInt32 sampleFrames);
 		void processDoubleReplacing(double** inputs, double** outputs, VstInt32 sampleFrames);
 
@@ -50,9 +47,5 @@ class Pop : public AirwindowsCompressorUIPlugin {
 
 		int delay;
 		bool flip;	
-
-		float A;
-		float B;
-		float C;
 	};
 
