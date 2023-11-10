@@ -13,6 +13,7 @@
 #include "Recurve.h"
 #include "Pyewacket.h"
 #include "BlockParty.h"
+#include "SoftGate.h"
 #include <vector>
 #include <string_view>
 #include <iostream>
@@ -134,6 +135,13 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 		.vendor = "airwindows / Steve Folta",
 		.features = default_features,
 		},
+	{
+		.clap_version = CLAP_VERSION_INIT,
+		.id = ID_PREFIX "SoftGate",
+		.name = "SoftGate UI",
+		.vendor = "airwindows / Steve Folta",
+		.features = default_features,
+		},
 	};
 
 class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
@@ -172,6 +180,8 @@ class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
 				return new Pyewacket(descriptor, host);
 			else if (id == ID_PREFIX "BlockParty")
 				return new BlockParty(descriptor, host);
+			else if (id == ID_PREFIX "SoftGate")
+				return new SoftGate(descriptor, host);
 			return nullptr;
 			}
 	};
