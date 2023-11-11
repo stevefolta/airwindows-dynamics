@@ -17,6 +17,7 @@
 #include "Thunder.h"
 #include "Compresaturator.h"
 #include "ButterComp.h"
+#include "BrassRider.h"
 #include <vector>
 #include <string_view>
 #include <iostream>
@@ -166,6 +167,13 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 		.vendor = "airwindows / Steve Folta",
 		.features = default_features,
 		},
+	{
+		.clap_version = CLAP_VERSION_INIT,
+		.id = ID_PREFIX "BrassRider",
+		.name = "BrassRider UI",
+		.vendor = "airwindows / Steve Folta",
+		.features = default_features,
+		},
 	};
 
 class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
@@ -212,6 +220,8 @@ class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
 				return new Compresaturator(descriptor, host);
 			else if (id == ID_PREFIX "ButterComp")
 				return new ButterComp(descriptor, host);
+			else if (id == ID_PREFIX "BrassRider")
+				return new BrassRider(descriptor, host);
 			return nullptr;
 			}
 	};
