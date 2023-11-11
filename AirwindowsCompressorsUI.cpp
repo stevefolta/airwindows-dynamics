@@ -18,6 +18,7 @@
 #include "Compresaturator.h"
 #include "ButterComp.h"
 #include "BrassRider.h"
+#include "Point.h"
 #include <vector>
 #include <string_view>
 #include <iostream>
@@ -174,6 +175,13 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 		.vendor = "airwindows / Steve Folta",
 		.features = default_features,
 		},
+	{
+		.clap_version = CLAP_VERSION_INIT,
+		.id = ID_PREFIX "Point",
+		.name = "Point UI",
+		.vendor = "airwindows / Steve Folta",
+		.features = default_features,
+		},
 	};
 
 class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
@@ -222,6 +230,8 @@ class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
 				return new ButterComp(descriptor, host);
 			else if (id == ID_PREFIX "BrassRider")
 				return new BrassRider(descriptor, host);
+			else if (id == ID_PREFIX "Point")
+				return new Point(descriptor, host);
 			return nullptr;
 			}
 	};
