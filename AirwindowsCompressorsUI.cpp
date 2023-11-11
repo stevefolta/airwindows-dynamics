@@ -20,6 +20,7 @@
 #include "BrassRider.h"
 #include "Point.h"
 #include "Gatelope.h"
+#include "PodcastDeluxe.h"
 #include <vector>
 #include <string_view>
 #include <iostream>
@@ -190,6 +191,13 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 		.vendor = "airwindows / Steve Folta",
 		.features = default_features,
 		},
+	{
+		.clap_version = CLAP_VERSION_INIT,
+		.id = ID_PREFIX "PodcastDeluxe",
+		.name = "PodcastDeluxe UI",
+		.vendor = "airwindows / Steve Folta",
+		.features = default_features,
+		},
 	};
 
 class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
@@ -242,6 +250,8 @@ class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
 				return new Point(descriptor, host);
 			else if (id == ID_PREFIX "Gatelope")
 				return new Gatelope(descriptor, host);
+			else if (id == ID_PREFIX "PodcastDeluxe")
+				return new PodcastDeluxe(descriptor, host);
 			return nullptr;
 			}
 	};
