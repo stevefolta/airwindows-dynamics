@@ -22,6 +22,7 @@
 #include "Gatelope.h"
 #include "PodcastDeluxe.h"
 #include "Podcast.h"
+#include "Swell.h"
 #include <vector>
 #include <string_view>
 #include <iostream>
@@ -206,6 +207,13 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 		.vendor = "airwindows / Steve Folta",
 		.features = default_features,
 		},
+	{
+		.clap_version = CLAP_VERSION_INIT,
+		.id = ID_PREFIX "Swell",
+		.name = "Swell UI",
+		.vendor = "airwindows / Steve Folta",
+		.features = default_features,
+		},
 	};
 
 class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
@@ -262,6 +270,8 @@ class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
 				return new PodcastDeluxe(descriptor, host);
 			else if (id == ID_PREFIX "Podcast")
 				return new Podcast(descriptor, host);
+			else if (id == ID_PREFIX "Swell")
+				return new Swell(descriptor, host);
 			return nullptr;
 			}
 	};
