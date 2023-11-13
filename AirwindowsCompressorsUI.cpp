@@ -24,6 +24,7 @@
 #include "Podcast.h"
 #include "Swell.h"
 #include "Surge.h"
+#include "SurgeTide.h"
 #include <vector>
 #include <string_view>
 #include <iostream>
@@ -222,6 +223,13 @@ static const std::vector<clap_plugin_descriptor_t> our_descriptors = {
 		.vendor = "airwindows / Steve Folta",
 		.features = default_features,
 		},
+	{
+		.clap_version = CLAP_VERSION_INIT,
+		.id = ID_PREFIX "SurgeTide",
+		.name = "SurgeTide UI",
+		.vendor = "airwindows / Steve Folta",
+		.features = default_features,
+		},
 	};
 
 class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
@@ -282,6 +290,8 @@ class AirwindowsCompressorsPluginFactory: public CLAPPluginFactory {
 				return new Swell(descriptor, host);
 			else if (id == ID_PREFIX "Surge")
 				return new Surge(descriptor, host);
+			else if (id == ID_PREFIX "SurgeTide")
+				return new SurgeTide(descriptor, host);
 			return nullptr;
 			}
 	};
